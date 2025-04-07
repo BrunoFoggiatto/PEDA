@@ -1,1 +1,4 @@
-print(" Mensagem que será sobreposta!")
+def saudacao():
+    print("Olá, mundo!")
+
+saudacao()

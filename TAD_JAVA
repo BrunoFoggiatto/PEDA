@@ -1,0 +1,76 @@
+public class NRac {
+    private int numerador;
+    private int denominador;
+
+    public NRac(int numerador, int denominador) {
+        if (denominador == 0) {
+            throw new IllegalArgumentException("O denominador não pode ser zero.");
+        }
+
+        // Garante que o sinal fique no numerador
+        if (denominador < 0) {
+            numerador *= -1;
+            denominador *= -1;
+        }
+
+        this.numerador = numerador;
+        this.denominador = denominador;
+        simplifica();
+    }
+
+    private void simplifica() {
+        int mdc = mdc(Math.abs(numerador), Math.abs(denominador));
+        numerador /= mdc;
+        denominador /= mdc;
+    }
+
+    private int mdc(int a, int b) {
+        return b == 0 ? a : mdc(b, a % b);
+    }
+
+    public NRac soma(NRac outro) {
+        int novoNum = this.numerador * outro.denominador + outro.numerador * this.denominador;
+        int novoDen = this.denominador * outro.denominador;
+        return new NRac(novoNum, novoDen);
+    }
+
+    public NRac subtrai(NRac outro) {
+        int novoNum = this.numerador * outro.denominador - outro.numerador * this.denominador;
+        int novoDen = this.denominador * outro.denominador;
+        return new NRac(novoNum, novoDen);
+    }
+
+    public NRac multiplica(NRac outro) {
+        int novoNum = this.numerador * outro.numerador;
+        int novoDen = this.denominador * outro.denominador;
+        return new NRac(novoNum, novoDen);
+    }
+
+    public NRac divide(NRac outro) {
+        if (outro.numerador == 0) {
+            throw new ArithmeticException("Divisão por zero não permitida.");
+        }
+        int novoNum = this.numerador * outro.denominador;
+        int novoDen = this.denominador * outro.numerador;
+        return new NRac(novoNum, novoDen);
+    }
+
+    @Override
+    public String toString() {
+        return numerador + "/" + denominador;
+    }
+
+    // Método principal para testes
+    public static void main(String[] args) {
+        NRac r1 = new NRac(1, 2);   // 1/2
+        NRac r2 = new NRac(3, 4);   // 3/4
+
+        System.out.println("r1 = " + r1);
+        System.out.println("r2 = " + r2);
+
+        System.out.println("Soma: " + r1.soma(r2));         // 1/2 + 3/4
+        System.out.println("Subtração: " + r1.subtrai(r2)); // 1/2 - 3/4
+        System.out.println("Multiplicação: " + r1.multiplica(r2)); // 1/2 * 3/4
+        System.out.println("Divisão: " + r1.divide(r2));    // 1/2 ÷ 3/4
+    }
+}

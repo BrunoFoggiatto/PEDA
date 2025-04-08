@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int numerador;
+    int denominador;
+} NRac;
+
+// Função para calcular o MDC
+int mdc(int a, int b) {
+    return b == 0 ? a : mdc(b, a % b);
+}
+
+// Função para criar um número racional e simplificar
+NRac cria(int numerador, int denominador) {
+    if (denominador == 0) {
+        printf("Erro: O denominador não pode ser zero.\n");
+        exit(1);
+    }
+
+    NRac r;
+    r.numerador = numerador;
+    r.denominador = denominador;
+
+    int divisor = mdc(r.numerador, r.denominador);
+    r.numerador /= divisor;
+    r.denominador /= divisor;
+
+    // Garante que o denominador seja sempre positivo
+    if (r.denominador < 0) {
+        r.numerador *= -1;
+        r.denominador *= -1;
+    }
+
+    return r;
+}
+
+// Função para somar dois números racionais
+NRac soma(NRac q1, NRac q2) {
+    int num = q1.numerador * q2.denominador + q2.numerador * q1.denominador;
+    int den = q1.denominador * q2.denominador;
+    return cria(num, den);
+}
+
+// Função para subtrair dois números racionais
+NRac subtrai(NRac q1, NRac q2) {
+    int num = q1.numerador * q2.denominador - q2.numerador * q1.denominador;
+    int den = q1.denominador * q2.denominador;
+    return cria(num, den);
+}
+
+// Função para multiplicar dois números racionais
+NRac multiplica(NRac q1, NRac q2) {
+    int num = q1.numerador * q2.numerador;
+    int den = q1.denominador * q2.denominador;
+    return cria(num, den);
+}
+
+// Função para dividir dois números racionais
+NRac divide(NRac q1, NRac q2) {
+    if (q2.numerador == 0) {
+        printf("Erro: Divisão por zero não permitida.\n");
+        exit(1);
+    }
+
+    int num = q1.numerador * q2.denominador;
+    int den = q1.denominador * q2.numerador;
+    return cria(num, den);
+}

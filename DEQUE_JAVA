@@ -1,0 +1,128 @@
+public class DequeVC {
+    private int N;
+    private Object[] data;
+    private int size;
+    private int front;
+    private int top;
+    private int ptr;
+
+    public DequeVC(int N) {
+        this.N = N;
+        this.data = new Object[N];
+        this.size = 0;
+        this.front = 0;
+        this.top = 0;
+        this.ptr = 0;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public boolean isFull() {
+        return size == N;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public Object peek() {
+        return isEmpty() ? null : data[front];
+    }
+
+    public Object top() {
+        return isEmpty() ? null : data[top];
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) return "Deque vazio.";
+        StringBuilder sb = new StringBuilder("[");
+        rewind();
+        for (int i = 0; i < size; i++) {
+            sb.append(next());
+            if (i < size - 1) sb.append(", ");
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String getVC() {
+        return java.util.Arrays.toString(data);
+    }
+
+    public void rewind() {
+        ptr = front;
+    }
+
+    public Object next() {
+        if (isEmpty()) return null;
+        Object e = data[ptr];
+        ptr = (ptr + 1) % N;
+        return e;
+    }
+
+    public void addFirst(Object e) {
+        if (isFull()) throw new RuntimeException("Deque cheio!");
+        if (!isEmpty()) {
+            front = (front - 1 + N) % N;
+        }
+        data[front] = e;
+        if (size == 0) top = front;
+        size++;
+    }
+
+    public void addLast(Object e) {
+        if (isFull()) throw new RuntimeException("Deque cheio!");
+        if (!isEmpty()) {
+            top = (top + 1) % N;
+        }
+        data[top] = e;
+        if (size == 0) front = top;
+        size++;
+    }
+
+    public Object deleteFirst() {
+        if (isEmpty()) throw new RuntimeException("Deque vazio!");
+        Object e = data[front];
+        data[front] = null;
+        front = (front + 1) % N;
+        size--;
+        return e;
+    }
+
+    public Object deleteLast() {
+        if (isEmpty()) throw new RuntimeException("Deque vazio!");
+        Object e = data[top];
+        data[top] = null;
+        top = (top - 1 + N) % N;
+        size--;
+        return e;
+    }
+
+    // Teste com método main
+    public static void main(String[] args) {
+        DequeVC deque = new DequeVC(5);
+
+        System.out.println("Inserindo elementos no final:");
+        deque.addLast("A");
+        deque.addLast("B");
+        deque.addLast("C");
+        System.out.println(deque); // [A, B, C]
+
+        System.out.println("Inserindo elementos no início:");
+        deque.addFirst("X");
+        deque.addFirst("Y");
+        System.out.println(deque); // [Y, X, A, B, C]
+
+        System.out.println("Deque completo (visualização interna): " + deque.getVC());
+
+        System.out.println("Removendo do início: " + deque.deleteFirst()); // Y
+        System.out.println("Removendo do fim: " + deque.deleteLast());     // C
+        System.out.println(deque); // [X, A, B]
+
+        System.out.println("Primeiro elemento: " + deque.peek()); // X
+        System.out.println("Último elemento: " + deque.top());    // B
+    }
+}

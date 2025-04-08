@@ -1,22 +1,9 @@
-import time
-from datetime import datetime
+deixe mais complexo def saudacao():
+    print("Olá, mundo!")
 
-def saudacao(nome):
-    hora = datetime.now().hour
-    if hora < 12:
-        mensagem = "Bom dia"
-    elif hora < 18:
-        mensagem = "Boa tarde"
-    else:
-        mensagem = "Boa noite"
-    
-    print(f"{mensagem}, {nome}! ")
-    time.sleep(1)
+saudacao()
 
-def despedida(nome):
-    print(f"Foi um prazer falar com você, {nome}. Até logo!")
-    time.sleep(1)
+def despedida():
+    print("Tchau, mundo")
 
-usuario = "Bruno"
-saudacao(usuario)
-despedida(usuario)
+despedida()

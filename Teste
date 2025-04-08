@@ -1,0 +1,10 @@
+def saudacao():
+  print("Olá, mundo!")
+
+for (i=0;i<5:i++):
+  saudacao()
+
+def despedida():
+    print("Tchau, mundo!")
+
+despedida    

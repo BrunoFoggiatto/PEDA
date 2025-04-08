@@ -2,3 +2,8 @@ def saudacao():
     print("Olá, mundo!")
 
 saudacao()
+
+def despedida():
+    print("Tchau, mundo")
+
+despedida()
